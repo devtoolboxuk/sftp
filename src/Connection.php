@@ -2,7 +2,7 @@
 
 namespace devtoolbox\sftplib;
 
-interface connection
+interface Connection
 {
 
     public function setPath($path);

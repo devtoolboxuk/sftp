@@ -66,7 +66,6 @@ class SftpService implements connection
 
     public function listFiles()
     {
-
         if (!$data = $this->connection->nlist()) {
             throw new \Exception('Unable to list files');
         }

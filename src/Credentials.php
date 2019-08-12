@@ -2,7 +2,7 @@
 
 namespace devtoolbox\sftplib;
 
-class credentials
+class Credentials
 {
 
     /**
