@@ -5,7 +5,7 @@ namespace devtoolbox\sftplib;
 use phpseclib\Net\SFTP;
 use phpseclib\Crypt\RSA;
 
-class SftpService implements connection
+class SftpService implements Connection
 {
     protected $connection;
     protected $credentials;
