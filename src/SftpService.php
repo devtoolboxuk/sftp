@@ -8,21 +8,43 @@ use phpseclib\Crypt\RSA;
 class SftpService implements connection
 {
     protected $connection;
-    protected $key;
     protected $credentials;
-    protected $path;
-    protected $fileName;
+    protected $path = '/';
+    protected $fileName = 'blank';
     protected $tempFileName;
 
-    public function __construct($path, $fileName)
+    public function __construct()
     {
-        $this->path = $path;
-        $this->fileName = $fileName;
-        $this->tempFileName = sprintf('%s.uploading', $fileName);
-
+        $this->tempFileName = sprintf('%s.uploading', $this->fileName);
     }
 
-    public function createClient(Credentials $credentials, $timeout = 10)
+    public function setPath($path)
+    {
+        $this->path = $path;
+    }
+
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
+        $this->tempFileName = sprintf('%s.uploading', $fileName);
+    }
+
+    public function getFileName()
+    {
+        return $this->fileName;
+    }
+
+    public function getTempFilename()
+    {
+        return $this->tempFileName;
+    }
+
+    public function create(Credentials $credentials, $timeout = 10)
     {
         $this->credentials = $credentials;
 
@@ -38,7 +60,7 @@ class SftpService implements connection
     public function getFile($path, $fileName)
     {
         if (!$this->connection->get($fileName, $path . $fileName)) {
-            throw new \Exception('Failed to download file.');
+            throw new \Exception(sprintf('Failed to download file %s.', $fileName));
         }
     }
 
@@ -62,17 +84,15 @@ class SftpService implements connection
     public function putFile()
     {
         if (!$this->connection->put($this->tempFileName, $this->path . $this->fileName, SFTP::SOURCE_LOCAL_FILE)) {
-            throw new \Exception('Failed to upload file.');
+            throw new \Exception(sprintf('Failed to upload file %s.', $this->tempFileName));
         }
     }
 
     public function deleteFile($fileName)
     {
-
         if (!$this->connection->delete($fileName)) {
             throw new \Exception(sprintf('Failed to delete %s on remote server.', $fileName));
         }
-
     }
 
     public function moveFile($fileName, $remote_file)
@@ -82,7 +102,6 @@ class SftpService implements connection
         }
     }
 
-
     public function renameFile()
     {
         if (!$this->connection->rename($this->tempFileName, $this->fileName)) {
@@ -90,7 +109,7 @@ class SftpService implements connection
         }
     }
 
-    public function verify()
+    public function verifyFile()
     {
         if (!$data = $this->connection->stat($this->fileName)) {
             throw new \Exception('Unable to get remote file size');
@@ -105,7 +124,6 @@ class SftpService implements connection
             throw new \Exception('Files are not of equal size');
         }
     }
-
 
     public function createRsaKey()
     {
@@ -139,7 +157,7 @@ class SftpService implements connection
         }
     }
 
-    public function changeFolder()
+    public function changeRemoteFolder()
     {
         if ($this->credentials->getFolder() != '') {
             if (!$this->connection->chdir($this->credentials->getFolder())) {
