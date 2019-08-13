@@ -9,35 +9,35 @@ class Credentials
      * The host name.
      * @var string
      */
-    protected $host;
+    protected $host = '';
 
     /**
      * The port number.
      * @var integer
      */
-    protected $port;
+    protected $port = 22;
 
     /**
      * The user name.
      * @var string
      */
-    protected $username;
+    protected $username = '';
 
     /**
      * The password.
      * @var string
      */
-    protected $password;
+    protected $password = '';
 
     /**
      * The default folder to change to.
      * @var string
      */
-    protected $folder;
-    protected $key;
-    protected $type;
-    protected $uploadMode;
-    protected $downloadMode;
+    protected $folder = '/';
+    protected $key = null;
+    protected $type = 'sftp';
+    protected $uploadMode = 'FTP_ASCII';
+    protected $downloadMode = 'FTP_ASCII';
 
     /**
      * Set credential values.
@@ -45,16 +45,15 @@ class Credentials
      */
     public function __construct($options)
     {
-
-        $this->host = isset($options['host']) ? $options['host'] : '';
-        $this->type = isset($options['type']) ? $options['type'] : '';
-        $this->port = isset($options['port']) ? $options['port'] : 21;
-        $this->username = isset($options['username']) ? $options['username'] : null;
-        $this->password = isset($options['password']) ? $options['password'] : null;
-        $this->folder = isset($options['folder']) ? $options['folder'] : '';
-        $this->key = isset($options['key']) ? $options['key'] : null;
-        $this->uploadMode = isset($options['upload_mode']) ? $options['upload_mode'] : null;
-        $this->downloadMode = isset($options['download_mode']) ? $options['download_mode'] : null;
+        $this->host = isset($options['host']) ? $options['host'] : $this->host;
+        $this->type = isset($options['type']) ? $options['type'] : $this->type;
+        $this->port = isset($options['port']) ? $options['port'] : $this->port;
+        $this->username = isset($options['username']) ? $options['username'] : $this->username;
+        $this->password = isset($options['password']) ? $options['password'] : $this->password;
+        $this->folder = isset($options['folder']) ? $options['folder'] : '/';
+        $this->key = isset($options['key']) ? $options['key'] : $this->key;
+        $this->uploadMode = isset($options['upload_mode']) ? $options['upload_mode'] : $this->uploadMode;
+        $this->downloadMode = isset($options['download_mode']) ? $options['download_mode'] : $this->downloadMode;
     }
 
     /**

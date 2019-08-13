@@ -49,6 +49,7 @@ class SftpService implements Connection
         $this->credentials = $credentials;
 
         $this->connection = new SFTP($this->credentials->getHost(), $this->credentials->getPort(), $timeout);
+        $this->setPath($this->credentials->getFolder());
         define('NET_SFTP_LOGGING', SFTP::LOG_REALTIME_FILE);
     }
 
@@ -155,13 +156,11 @@ class SftpService implements Connection
 
     public function changeRemoteFolder()
     {
-        if ($this->credentials->getFolder() != '') {
-            if (!$this->connection->chdir($this->credentials->getFolder())) {
-                throw new \Exception(sprintf(
-                    'Unable to change directory to %s.',
-                    $this->credentials->getFolder()
-                ));
-            }
+        if (!$this->connection->chdir($this->getPath())) {
+            throw new \Exception(sprintf(
+                'Unable to change directory to %s.',
+                $this->getPath()
+            ));
         }
         return;
     }
