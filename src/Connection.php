@@ -20,6 +20,7 @@ interface Connection
     public function login();
 
     public function putFile();
+
     public function listFiles();
 
     public function getFile($path, $fileName);
@@ -31,6 +32,9 @@ interface Connection
     public function moveFile($fileName, $remote_file);
 
     public function verifyFile();
+
+    public function close();
+
     public function changeRemoteFolder();
 
 

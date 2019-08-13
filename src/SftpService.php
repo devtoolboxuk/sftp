@@ -132,15 +132,12 @@ class SftpService implements Connection
     private function getKey()
     {
         $key = $this->credentials->getPassword();
-        if ($this->credentials->getKey()) {
 
+        if ($this->credentials->getKey()) {
             if (file_exists($this->credentials->getKey())) {
                 $key = $this->createRsaKey();
                 $key->loadKey(file_get_contents($this->credentials->getKey()));
             }
-
-        } else {
-            $key = $this->credentials->getPassword();
         }
 
         return $key;
@@ -165,9 +162,7 @@ class SftpService implements Connection
                     $this->credentials->getFolder()
                 ));
             }
-
         }
         return;
     }
-
 }
