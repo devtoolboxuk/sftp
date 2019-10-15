@@ -81,12 +81,13 @@ class SftpService implements Connection
         return $files;
     }
 
-    public function uploadFile()
+    public function uploadFile($remoteFileName, $localFile)
     {
-        if (!$this->connection->put($this->tempFileName, $this->path . $this->fileName, SFTP::SOURCE_LOCAL_FILE)) {
+        if (!$this->connection->put($remoteFileName, $localFile, SFTP::SOURCE_LOCAL_FILE)) {
             throw new \Exception(sprintf('Failed to upload file %s.', $this->tempFileName));
         }
     }
+
     public function putFile()
     {
         if (!$this->connection->put($this->tempFileName, $this->path . $this->fileName, SFTP::SOURCE_LOCAL_FILE)) {
